@@ -5,13 +5,14 @@ from cell import Cell
 def main():
     win = Window(800, 600)
     
-    firstPoint = Point(20,20)
-    secondPoint = Point(300,300)
 
-    first_cell = Cell(win, firstPoint, secondPoint)
-    first_cell.draw()
+    first_cell = Cell(win)
+    first_cell.draw(20, 300, 20, 300)
+
+    second_cell = Cell(win)
+    second_cell.draw(310, 590, 20, 300)
     
-    
+    first_cell.draw_move(second_cell)
     win.wait_for_close()
 
 
