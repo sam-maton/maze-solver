@@ -1,7 +1,7 @@
 from window import Window
 from line import Line, Point
 class Cell:
-    def __init__(self, window: Window, left_wall = True, right_wall = True, top_wall = True, bottom_wall = True) -> None:
+    def __init__(self, window: Window, left_wall = False, right_wall = True, top_wall = False, bottom_wall = True) -> None:
         self.has_left_wall = left_wall
         self.has_right_wall = right_wall
         self.has_top_wall = top_wall
