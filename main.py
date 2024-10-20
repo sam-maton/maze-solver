@@ -15,7 +15,6 @@ def main():
     
     # first_cell.draw_move(second_cell)
     new_maze = Maze(10, 10, 9, 9 , 80, 80, win)
-    new_maze._break_entrance_and_exit()
 
     win.wait_for_close()
 
