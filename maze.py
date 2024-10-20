@@ -2,7 +2,7 @@ from window import Window
 from cell import Cell
 import time
 class Maze():
-    def __init__(self, x1: int, y1: int, num_rows: int, num_cols: int, cell_size_x : int, cell_size_y : int, win: Window) -> None:
+    def __init__(self, x1: int, y1: int, num_rows: int, num_cols: int, cell_size_x : int, cell_size_y : int, win: Window = None) -> None:
         self.x1 = x1
         self.y1 = y1
         self.num_rows = num_rows
@@ -20,25 +20,40 @@ class Maze():
             for j in range(self.num_rows):
                 col.append(Cell(self.win))
             self._cells.append(col)
-    
-    def _draw_cells(self):
-        for i in range(len(self._cells)):
-            for j in range(len(self._cells[i])):
-                left_x = self.x1 + (i * self.cell_size_x)
-                right_x = left_x + self.cell_size_x
-                top_y = self.y1 + (j * self.cell_size_y)
-                bottom_y = top_y + self.cell_size_y
+        
+        for col in range(len(self._cells)):
+            for row in range(len(self._cells[i])):
+                self._draw_cell(col,row)
+        
 
-                if j == 0:
-                    self._cells[i][j].has_top_wall = True
-                
-                if i == 0:
-                    self._cells[i][j].has_left_wall = True
-                
-                self._cells[i][j].draw(left_x, right_x, top_y, bottom_y)
+    
+    def _draw_cell(self, i, j):
+        left_x = self.x1 + (i * self.cell_size_x)
+        right_x = left_x + self.cell_size_x
+        top_y = self.y1 + (j * self.cell_size_y)
+        bottom_y = top_y + self.cell_size_y
+
+        if j == 0:
+            self._cells[i][j].has_top_wall = True
+        
+        if i == 0:
+            self._cells[i][j].has_left_wall = True
+        
+        self._cells[i][j].draw(left_x, right_x, top_y, bottom_y)
     
     def _animate(self):
+        if self.win == None:
+            return
         self.win.redraw()
         time.sleep(0.1)
+
+    def _break_entrance_and_exit(self):
+        entrance = self._cells[0][0]
+        exit = self._cells[self.num_cols -1][self.num_rows -1]
+
+        entrance.has_top_wall = False
+        exit.has_bottom_wall = False
+
+        self._draw_cell(0,0)
 
 
