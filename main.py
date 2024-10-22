@@ -14,7 +14,8 @@ def main():
     # second_cell.draw(310, 590, 20, 300)
     
     # first_cell.draw_move(second_cell)
-    new_maze = Maze(10, 10, 9, 9 , 80, 80, win)
+    new_maze = Maze(10, 10, 9, 9 , 80, 80, win, 10)
+    new_maze.solve()
 
     win.wait_for_close()
 

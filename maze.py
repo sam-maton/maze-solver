@@ -47,7 +47,7 @@ class Maze():
         if self.win == None:
             return
         self.win.redraw()
-        time.sleep(1)
+        time.sleep(0.1)
 
     def _break_entrance_and_exit(self):
         entrance = self._cells[0][0]
@@ -104,3 +104,58 @@ class Maze():
         for col in self._cells:
             for cell in col:
                 cell._visited = False
+
+    def solve(self):
+        return self._solve_r(0,0)
+
+    def _solve_r(self, i: int, j: int):
+        self._animate()
+        self._cells[i][j]._visited = True
+
+        if i == self.num_cols - 1 and j == self.num_rows - 1:
+            return True
+        
+        current = self._cells[i][j]
+        if i > 0:
+            left = self._cells[i - 1][j]
+            if not left.has_right_wall and not left._visited and not current.has_left_wall:
+                current.draw_move(left)
+                move = self._solve_r(i - 1, j)
+                if move == True:
+                    return True
+                else:
+                    current.draw_move(left, undo=True)
+        
+        if i < self.num_cols - 1:
+            right = self._cells[i + 1][j]
+            if not right.has_left_wall and not right._visited and not current.has_right_wall:
+                current.draw_move(right)
+                move = self._solve_r(i + 1, j)
+                if move == True:
+                    return True
+                else:
+                    current.draw_move(right, undo=True)
+        
+        if j > 0:
+            top = self._cells[i][j - 1]
+            if not top.has_bottom_wall and not top._visited and not current.has_top_wall:
+                current.draw_move(top)
+                move = self._solve_r(i, j - 1)
+                if move == True:
+                    return True
+                else:
+                    current.draw_move(top, undo=True)
+        
+        if j < self.num_rows - 1:
+            bottom = self._cells[i][j + 1]
+            if not bottom.has_top_wall and not bottom._visited and not current.has_bottom_wall:
+                current.draw_move(bottom)
+                move = self._solve_r(i, j + 1)
+                if move == True:
+                    return True
+                else:
+                    current.draw_move(bottom, undo=True)
+
+        return False
+        
+        
